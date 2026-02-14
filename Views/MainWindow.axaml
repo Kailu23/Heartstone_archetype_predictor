@@ -1,0 +1,58 @@
+<Window
+x:Class="Heartstone_Archetype_Predictor.Views.MainWindow"
+xmlns="https://github.com/avaloniaui"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+xmlns:vm="using:Heartstone_Archetype_Predictor.ViewModels"
+xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+Title="Heartstone_Archetype_Predictor"
+Width="600"
+Height="850"
+d:DesignHeight="850"
+d:DesignWidth="600"
+x:DataType="vm:MainWindowViewModel"
+WindowStartupLocation="CenterScreen"
+Icon="/Assets/avalonia-logo.ico"
+mc:Ignorable="d"
+RequestedThemeVariant="Dark"
+>
+
+    <Design.DataContext
+    >
+        <!--
+        This only sets the DataContext for the previewer in an IDE,
+        to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <StackPanel>
+        <Border
+        Margin="0,5"
+        CornerRadius="5">
+
+            <TextBlock
+            Margin="0,20"
+            HorizontalAlignment="Center"
+            FontSize="24"
+            >
+                Heartstone Archetype Predictor
+            </TextBlock>
+
+
+        </Border>
+
+        <TextBox></TextBox>
+
+        <Grid ShowGridLines="False"
+              Margin="5"
+              ColumnDefinitions="Auto"
+              RowDefinitions="500"
+              HorizontalAlignment="Center"
+              >
+            <Image Grid.Column="0" asyncImageLoader:ImageLoader.Source="https://art.hearthstonejson.com/v1/render/latest/enUS/512x/EX1_001.png"></Image>
+            </Grid>
+        <TextBlock HorizontalAlignment="Center">Your deck is of x archetype</TextBlock>
+    </StackPanel>
+</Window>
