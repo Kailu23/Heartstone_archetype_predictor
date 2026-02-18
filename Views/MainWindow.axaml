@@ -6,7 +6,7 @@ xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 xmlns:vm="using:Heartstone_Archetype_Predictor.ViewModels"
 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-Title="Heartstone_Archetype_Predictor"
+Title="Heartstone Archetype Predictor"
 Width="600"
 Height="850"
 d:DesignHeight="850"
@@ -47,12 +47,33 @@ RequestedThemeVariant="Dark"
 
         <Grid ShowGridLines="False"
               Margin="5"
-              ColumnDefinitions="Auto"
+              ColumnDefinitions="100, 500"
               RowDefinitions="500"
               HorizontalAlignment="Center"
               >
-            <Image Grid.Column="0" asyncImageLoader:ImageLoader.Source="https://art.hearthstonejson.com/v1/render/latest/enUS/512x/EX1_001.png"></Image>
-            </Grid>
-        <TextBlock HorizontalAlignment="Center">Your deck is of x archetype</TextBlock>
+            <StackPanel Grid.Column="0">
+                <TextBlock Margin="0 5">Cards:</TextBlock>
+                <ItemsControl ItemsSource="{Binding CardNames}"></ItemsControl>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Margin="50 20">
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <ListBox ItemsSource="{Binding Images}" Loaded="OnListBoxLoaded">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal"></VirtualizingStackPanel>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding}" Width="400" Height="512" Stretch="UniformToFill"></Image>
+                            </DataTemplate>
+
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </ScrollViewer>
+            </StackPanel>
+        </Grid>
+        <TextBlock HorizontalAlignment="Center" Padding="20">Your deck is of x archetype</TextBlock>
     </StackPanel>
 </Window>
