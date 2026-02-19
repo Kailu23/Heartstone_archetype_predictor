@@ -9,7 +9,7 @@ using System.Net.Http;
 using System.Linq;
 using Avalonia.Media.Imaging;
 
-namespace Heartstone_Archetype_Predictor.Models;
+namespace Hearthstone_Archetype_Predictor.Models;
 
 public class HearthstoneSerializer {
 

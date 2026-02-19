@@ -4,13 +4,13 @@ using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
 using System.Linq;
 using Avalonia.Markup.Xaml;
-using Heartstone_Archetype_Predictor.ViewModels;
-using Heartstone_Archetype_Predictor.Views;
+using Hearthstone_Archetype_Predictor.ViewModels;
+using Hearthstone_Archetype_Predictor.Views;
 using Material.Colors;
 using Material.Styles.Themes;
 using Avalonia.Styling;
 
-namespace Heartstone_Archetype_Predictor;
+namespace Hearthstone_Archetype_Predictor;
 
 public partial class App : Application {
     public override void Initialize() {

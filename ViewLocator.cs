@@ -2,9 +2,9 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
-using Heartstone_Archetype_Predictor.ViewModels;
+using Hearthstone_Archetype_Predictor.ViewModels;
 
-namespace Heartstone_Archetype_Predictor;
+namespace Hearthstone_Archetype_Predictor;
 
 /// <summary>
 /// Given a view model, returns the corresponding view if possible.

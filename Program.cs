@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace Heartstone_Archetype_Predictor;
+namespace Hearthstone_Archetype_Predictor;
 
 sealed class Program
 {

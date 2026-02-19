@@ -1,14 +1,14 @@
 ﻿using Avalonia.Controls;
 using Avalonia.Media.Imaging;
-using Heartstone_Archetype_Predictor.Models;
-using Heartstone_Archetype_Predictor.Views;
+using Hearthstone_Archetype_Predictor.Models;
+using Hearthstone_Archetype_Predictor.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
 
-namespace Heartstone_Archetype_Predictor.ViewModels;
+namespace Hearthstone_Archetype_Predictor.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
 

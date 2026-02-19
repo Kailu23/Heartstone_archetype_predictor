@@ -1,7 +1,7 @@
 <Application xmlns="https://github.com/avaloniaui"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="Heartstone_Archetype_Predictor.App"
-             xmlns:local="using:Heartstone_Archetype_Predictor"
+             x:Class="Hearthstone_Archetype_Predictor.App"
+             xmlns:local="using:Hearthstone_Archetype_Predictor"
              RequestedThemeVariant="Default"
              >
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
@@ -17,7 +17,9 @@
                 <ColorPaletteResources x:Key="Dark" Accent="#ff1101cc" AltHigh="#57ade6" AltLow="#2f7bad" AltMedium="#57ade6" AltMediumHigh="#2f7bad" AltMediumLow="#ff2f7bad" BaseHigh="White" BaseLow="#ff2f7bad" BaseMedium="#ff8dbfdf" BaseMediumHigh="#ffa5d0ec" BaseMediumLow="#ff5e9dc6" ChromeAltLow="#ffa5d0ec" ChromeBlackHigh="Black" ChromeBlackLow="#ffa5d0ec" ChromeBlackMedium="Black" ChromeBlackMediumLow="Black" ChromeDisabledHigh="#ff2f7bad" ChromeDisabledLow="#ff8dbfdf" ChromeGray="#ff76aed3" ChromeHigh="#ff76aed3" ChromeLow="#ff093b73" ChromeMedium="#ff134b82" ChromeMediumLow="#ff266b9f" ChromeWhite="White" ListLow="#ff134b82" ListMedium="#ff2f7bad" RegionColor="#ff06111e" />
             </FluentTheme.Palettes>
         </FluentTheme>
-
     </Application.Styles>
+    <Application.Resources>
+        <FontFamily x:Key="NunitoFont">avares://Hearthstone Archetype Predictor/Assets/Fonts#Nunito</FontFamily>
+    </Application.Resources>
 
 </Application>

@@ -1,8 +1,8 @@
 using Avalonia.Controls;
-using Heartstone_Archetype_Predictor.ViewModels;
+using Hearthstone_Archetype_Predictor.ViewModels;
 using System.Threading.Tasks;
 
-namespace Heartstone_Archetype_Predictor.Views;
+namespace Hearthstone_Archetype_Predictor.Views;
 
 public partial class MainWindow : Window {
 	public MainWindow() {

@@ -1,12 +1,12 @@
 <Window
-x:Class="Heartstone_Archetype_Predictor.Views.MainWindow"
+x:Class="Hearthstone_Archetype_Predictor.Views.MainWindow"
 xmlns="https://github.com/avaloniaui"
 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-xmlns:vm="using:Heartstone_Archetype_Predictor.ViewModels"
+xmlns:vm="using:Hearthstone_Archetype_Predictor.ViewModels"
 xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
-Title="Heartstone Archetype Predictor"
+Title="Hearthstone Archetype Predictor"
 Width="900"
 Height="850"
 d:DesignHeight="850"
@@ -41,7 +41,7 @@ RequestedThemeVariant="Dark"
             FontStyle="Italic"
             Padding="10"
             >
-                Heartstone Archetype Predictor
+                Hearthstone Archetype Predictor
             </TextBlock>
 
 
