@@ -1,6 +1,6 @@
 using Avalonia.Controls;
+
 using Hearthstone_Archetype_Predictor.ViewModels;
-using System.Threading.Tasks;
 
 namespace Hearthstone_Archetype_Predictor.Views;
 
@@ -9,10 +9,13 @@ public partial class MainWindow : Window {
 		InitializeComponent();
 	}
 
-	private async void OnListBoxLoaded(object? sender, Avalonia.Interactivity.RoutedEventArgs e) {
-        if (DataContext is MainWindowViewModel viewModel)
-        {
-            await viewModel.OnListBoxLoaded();
-        }
-    }
+	private async void DeckStringInput_TextChanged(object? sender, TextChangedEventArgs e) {
+		string? deckString = DeckStringInput.Text;
+		if (deckString is null) return;
+		if (DataContext is MainWindowViewModel viewModel) {
+			if (deckString.Length >= 60) {
+				await viewModel.NewDeckString(deckString);
+			}
+		}
+	}
 }
