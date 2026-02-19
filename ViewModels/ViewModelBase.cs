@@ -2,6 +2,5 @@
 
 namespace Hearthstone_Archetype_Predictor.ViewModels;
 
-public abstract class ViewModelBase : ObservableObject
-{
+public abstract class ViewModelBase : ObservableObject {
 }
