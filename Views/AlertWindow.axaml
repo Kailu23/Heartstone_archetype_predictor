@@ -1,0 +1,22 @@
+<Window
+    x:Class="Hearthstone_Archetype_Predictor.Views.AlertWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Notice"
+    Width="380"
+    SizeToContent="Height"
+    CanResize="False"
+    WindowStartupLocation="CenterOwner"
+    RequestedThemeVariant="Dark">
+    <StackPanel Margin="20" Spacing="15">
+        <TextBlock
+            Name="MessageText"
+            TextWrapping="Wrap"
+            FontFamily="{StaticResource NunitoFont}"
+            FontSize="14" />
+        <Button
+            Content="OK"
+            HorizontalAlignment="Right"
+            Click="OkButton_Click" />
+    </StackPanel>
+</Window>

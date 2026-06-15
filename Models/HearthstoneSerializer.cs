@@ -1,106 +1,114 @@
-using Avalonia.Media.Imaging;
-using HearthDb.Deckstrings;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using Avalonia.Media.Imaging;
+using HearthDb.Deckstrings;
 
 namespace Hearthstone_Archetype_Predictor.Models;
 
 public class HearthstoneSerializer {
+    private string _deckString;
+    public string DeckString {
+        get { return _deckString; }
+        set { _deckString = value; }
+    }
+    private Deck _deck;
 
-	private string _deckString;
-	public string DeckString {
-		get {
-			return _deckString;
-		}
-		set {
-			_deckString = value;
-		}
-	}
-	private Deck _deck;
+    private Dictionary<HearthDb.Card, int> _cards;
+    public Dictionary<HearthDb.Card, int> Cards {
+        get { return this._cards; }
+    }
 
-	private Dictionary<HearthDb.Card, int> _cards;
-	public Dictionary<HearthDb.Card, int> Cards {
-		get {
-			return this._cards;
-		}
-	}
+    private List<Bitmap> _images;
 
-	private List<Bitmap> _images;
+    private Dictionary<HearthDb.Card, string> _imageUrls;
 
-	private Dictionary<HearthDb.Card, string> _imageUrls;
+    private string baseUrl = "https://art.hearthstonejson.com/v1/render/latest/enUS/512x";
 
-	private string baseUrl = "https://art.hearthstonejson.com/v1/render/latest/enUS/512x";
+    public HearthstoneSerializer(
+        string deckString = "AAECAQcCrwSRvAIOHLACkQP/A44FqAXUBaQG7gbnB+8HgrACiLACub8CAAA="
+    ) {
+        this._deckString = deckString;
+        this._deck = new Deck();
+        this._cards = new Dictionary<HearthDb.Card, int>();
+        this._images = new List<Bitmap>();
+        this._imageUrls = new Dictionary<HearthDb.Card, string>();
+    }
 
-	public HearthstoneSerializer(string deckString = "AAECAQcCrwSRvAIOHLACkQP/A44FqAXUBaQG7gbnB+8HgrACiLACub8CAAA=") {
-		this._deckString = deckString;
-		this._deck = new Deck();
-		this._cards = new Dictionary<HearthDb.Card, int>();
-		this._images = new List<Bitmap>();
-		this._imageUrls = new Dictionary<HearthDb.Card, string>();
-	}
+    public async Task<List<Bitmap>> GetImagesAsync() {
+        await Deserialize(this._deckString);
+        return _images;
+    }
 
-	public async Task<List<Bitmap>> GetImagesAsync() {
-		await Deserialize(this._deckString);
-		return _images;
-	}
+    private async Task Deserialize(string deckString) {
+        List<Bitmap> downloadedBitmaps = new List<Bitmap>();
+        this._deck = DeckSerializer.Deserialize(deckString);
 
-	private async Task Deserialize(string deckString) {
-		List<Bitmap> downloadedBitmaps = new List<Bitmap>();
-		this._deck = DeckSerializer.Deserialize(deckString);
+        _cards = _deck.GetCards();
 
-		_cards = _deck.GetCards();
+        _imageUrls.Clear();
+        _images.Clear();
+        string imageUrl;
+        foreach (var card in _cards) {
+            imageUrl = CreateImageUrl(card.Key.Id);
+            _imageUrls.Add(card.Key, imageUrl);
+        }
 
-		_imageUrls.Clear();
-		_images.Clear();
-		string imageUrl;
-		foreach (var card in _cards) {
-			imageUrl = CreateImageUrl(card.Key.Id);
-			_imageUrls.Add(card.Key, imageUrl);
-		}
+        downloadedBitmaps = await DownloadImagesAsync(_imageUrls);
+        _images = downloadedBitmaps;
+    }
 
-		downloadedBitmaps = await DownloadImagesAsync(_imageUrls);
-		_images = downloadedBitmaps;
-	}
-	/// <summary>
-	/// Creates an image url based on the card id.
-	/// 
-	/// https://art.hearthstonejson.com/v1/render/latest/{LOCALE}/{RESOLUTION}/{CARD_ID}.{EXT}
-	/// 
-	/// For LOCALE we chose english(US), resolution is 512x512 pixels. 
-	/// 
-	/// Only supports .png extension 
-	/// </summary>
-	/// <param name="id"></param>
-	/// <returns></returns>
+    /// <summary>
+    /// Creates an image url based on the card id.
+    ///
+    /// https://art.hearthstonejson.com/v1/render/latest/{LOCALE}/{RESOLUTION}/{CARD_ID}.{EXT}
+    ///
+    /// For LOCALE we chose english(US), resolution is 512x512 pixels.
+    ///
+    /// Only supports .png extension
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    private string CreateImageUrl(string id) {
+        return $"{baseUrl}/{id}.png";
+    }
 
-	private string CreateImageUrl(string id) {
-		return $"{baseUrl}/{id}.png";
-	}
+    private async Task<List<Bitmap>> DownloadImagesAsync(
+        Dictionary<HearthDb.Card, string> imageUrls
+    ) {
+        try {
+            var downloadTasks = imageUrls.Select(url => DownloadImageAsync(url.Value));
 
-	private async Task<List<Bitmap>> DownloadImagesAsync(Dictionary<HearthDb.Card, string> imageUrls) {
+            var bitmaps = await Task.WhenAll(downloadTasks);
 
-		try {
-			var downloadTasks = imageUrls.Select(url => DownloadImageAsync(url.Value));
+            return bitmaps.ToList();
+        } catch (Exception ex) {
+            Console.WriteLine($"Error downloading images: {ex.Message}");
+            return new List<Bitmap>();
+        }
+    }
 
-			var bitmaps = await Task.WhenAll(downloadTasks);
+    private async Task<Bitmap> DownloadImageAsync(string imageUrl) {
+        using var client = new HttpClient();
+        using var response = await client.GetAsync(imageUrl);
+        response.EnsureSuccessStatusCode();
 
-			return bitmaps.ToList();
-		} catch (Exception ex) {
-			Console.WriteLine($"Error downloading images: {ex.Message}");
-			return new List<Bitmap>();
-		}
-	}
+        using Stream stream = await response.Content.ReadAsStreamAsync();
+        return new Bitmap(stream);
+    }
 
-	private async Task<Bitmap> DownloadImageAsync(string imageUrl) {
-		using var client = new HttpClient();
-		using var response = await client.GetAsync(imageUrl);
-		response.EnsureSuccessStatusCode();
+    public bool isValidDeckString(string deckString) {
+        if (string.IsNullOrWhiteSpace(deckString))
+            return false;
 
-		using Stream stream = await response.Content.ReadAsStreamAsync();
-		return new Bitmap(stream);
-	}
+        try {
+            Deck deck = DeckSerializer.Deserialize(deckString);
+            return deck is not null && deck.GetCards().Count > 0;
+        } catch {
+            return false;
+        }
+    }
 }
