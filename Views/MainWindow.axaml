@@ -8,8 +8,6 @@ xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 xmlns:vm="using:Hearthstone_Archetype_Predictor.ViewModels"
 xmlns:views="clr-namespace:Hearthstone_Archetype_Predictor.Views"
 Title="Hearthstone Archetype Predictor"
-Width="900"
-Height="850"
 d:DesignHeight="850"
 d:DesignWidth="920"
 x:DataType="vm:MainWindowViewModel"
@@ -25,89 +23,103 @@ mc:Ignorable="d">
         <vm:MainWindowViewModel />
     </Design.DataContext>
 
-    <StackPanel>
-        <Border Margin="0,21,0,21" CornerRadius="5">
+    <Viewbox Stretch="Uniform">
+        <Panel Width="1920" Height="1080">
 
-            <TextBlock
-            Margin="0,20"
-            Padding="10"
-            HorizontalAlignment="Center"
-            FontFamily="{StaticResource NunitoFont}"
-            FontSize="28"
-            FontStyle="Italic"
-            FontWeight="Black">
-                Hearthstone Archetype Predictor
-            </TextBlock>
+            <Grid RowDefinitions="Auto, Auto, *, Auto">
 
+                <Border Grid.Row="0" Margin="0,5" CornerRadius="5">
+                    <TextBlock
+                        Margin="0,20"
+                        Padding="10"
+                        HorizontalAlignment="Center"
+                        FontFamily="{StaticResource NunitoFont}"
+                        FontSize="28"
+                        FontStyle="Italic"
+                        FontWeight="Black">
+                        Hearthstone Archetype Predictor
+                    </TextBlock>
+                </Border>
 
-        </Border>
+                <Grid
+                    Grid.Row="1"
+                    Margin="5"
+                    ColumnDefinitions="Auto, *"
+                    ShowGridLines="False">
 
-        <Grid
-        Margin="5"
-        HorizontalAlignment="Stretch"
-        ColumnDefinitions="Auto, *"
-        RowDefinitions="512"
-        ShowGridLines="False">
-            <TextBlock
-            Grid.Column="0"
-            Height="50"
-            Margin="0,5"
-            Padding="20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            FontFamily="{StaticResource NunitoFont}"
-            FontSize="16"
-            FontStyle="Italic"
-            FontWeight="Bold">
-                Cards:
-            </TextBlock>
-            <ScrollViewer
-            Grid.Column="0"
-            Margin="0,50,5,0"
-            HorizontalScrollBarVisibility="Disabled"
-            VerticalScrollBarVisibility="Auto">
+                    <Grid
+                        Grid.Column="0"
+                        RowDefinitions="Auto, *">
 
-                <ItemsControl
-                Padding="0,10,10,0"
-                FontFamily="{StaticResource NunitoFont}"
-                FontWeight="Bold"
-                ItemsSource="{Binding CardNamesAndCopies}"
-                >
+                        <TextBlock
+                            Grid.Row="0"
+                            Height="50"
+                            Margin="0,5"
+                            Padding="20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            FontFamily="{StaticResource NunitoFont}"
+                            FontSize="16"
+                            FontStyle="Italic"
+                            FontWeight="Bold">
+                            Cards:
+                        </TextBlock>
 
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock
-                            Padding="10, 5, 20, 5"
-                            FontSize="14"
-                            Text="{Binding}" />
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-            <StackPanel Grid.Column="1" Margin="5,20">
-                <ListBox
-                ItemsSource="{Binding Images}"
-                ScrollViewer.HorizontalScrollBarVisibility="Auto"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled"
-                AutoScrollToSelectedItem="True">
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <VirtualizingStackPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                        <ScrollViewer
+                            Grid.Row="1"
+                            Margin="0,0,5,0"
+                            HorizontalScrollBarVisibility="Disabled"
+                            VerticalScrollBarVisibility="Auto">
+                            <ItemsControl
+                                Padding="0,10,10,0"
+                                FontFamily="{StaticResource NunitoFont}"
+                                FontWeight="Bold"
+                                ItemsSource="{Binding CardNamesAndCopies}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <TextBlock
+                                            Padding="10,5,20,5"
+                                            FontSize="14"
+                                            Text="{Binding}" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Image
-                            Width="315"
-                            Height="512"
-                            Source="{Binding}"
-                            Stretch="Uniform" />
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </StackPanel>
-        </Grid>
-        <TextBlock Padding="20" HorizontalAlignment="Center">Your deck is of x archetype</TextBlock>
-    </StackPanel>
+                    <ListBox
+                        Grid.Column="1"
+                        Margin="5,20,0,0"
+                        ItemsSource="{Binding Images}"
+                        ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                        ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                        AutoScrollToSelectedItem="True">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel Orientation="Horizontal" />
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Image
+                                    Width="315"
+                                    Height="512"
+                                    Source="{Binding}"
+                                    Stretch="Uniform" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+
+                </Grid>
+
+                <TextBlock
+                    Grid.Row="2"
+                    Padding="20"
+                    HorizontalAlignment="Center">
+                    Your deck is of x archetype
+                </TextBlock>
+
+            </Grid>
+        </Panel>
+    </Viewbox>
 </Window>

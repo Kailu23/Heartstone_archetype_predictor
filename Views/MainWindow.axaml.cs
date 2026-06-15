@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Input.Platform;
@@ -18,6 +19,7 @@ public partial class MainWindow : Window {
     public MainWindow() {
         InitializeComponent();
         AddHandler(KeyDownEvent, OnPreviewKeyDown, RoutingStrategies.Tunnel);
+        this.Opened += OnOpened;
     }
 
     private async void OnPreviewKeyDown(object? sender, KeyEventArgs e) {
@@ -55,5 +57,34 @@ public partial class MainWindow : Window {
     private async Task ShowAlertAsync(string title, string message) {
         var alert = new AlertWindow(title, message);
         await alert.ShowDialog(this);
+    }
+
+    private void OnOpened(object? sender, System.EventArgs e) {
+        var screen = Screens.Primary;
+        if (screen is not null) {
+            double density = screen.Scaling;
+            double screenWidth = screen.WorkingArea.Width / density;
+            double screenHeight = screen.WorkingArea.Height / density;
+
+            const double WidthFraction = 1;
+            const double HeightFraction = 0.75;
+            Width = screenWidth * WidthFraction;
+            Height = screenHeight * HeightFraction;
+
+            // Re-centre after resize
+            var pos = screen.WorkingArea;
+            Position = new PixelPoint(
+                (int) (pos.X + (pos.Width - Width * density) / 2),
+                (int) (pos.Y + (pos.Height - Height * density) / 2)
+            );
+        }
+    }
+
+    protected override void OnSizeChanged(SizeChangedEventArgs e) {
+        base.OnSizeChanged(e);
+        if (DataContext is MainWindowViewModel vm) {
+            vm.WindowWidth = e.NewSize.Width;
+            vm.WindowHeight = e.NewSize.Height;
+        }
     }
 }
