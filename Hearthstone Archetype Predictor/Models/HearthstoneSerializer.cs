@@ -100,7 +100,7 @@ public class HearthstoneSerializer {
         return new Bitmap(stream);
     }
 
-    public bool isValidDeckString(string deckString) {
+    public bool IsValidDeckString(string deckString) {
         if (string.IsNullOrWhiteSpace(deckString))
             return false;
 

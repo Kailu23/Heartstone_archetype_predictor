@@ -44,7 +44,7 @@ public partial class MainWindow : Window {
         if (DataContext is not MainWindowViewModel viewModel)
             return;
 
-        bool isValid = await viewModel.NewDeckString(_lastPastedDeckString);
+        bool isValid = await viewModel.NewDeckstring(_lastPastedDeckString);
 
         if (isValid is false) {
             await ShowAlertAsync(

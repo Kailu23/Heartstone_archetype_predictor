@@ -64,8 +64,8 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
             _cardNamesAndCopies.Add(fullCard);
         }
     }
-    public async Task<bool> NewDeckString(string deckString) {
-        if (_hearthstoneSerializer.isValidDeckString(deckString) is false) return false;
+    public async Task<bool> NewDeckstring(string deckString) {
+        if (_hearthstoneSerializer.IsValidDeckString(deckString) is false) return false;
 
         _hearthstoneSerializer.DeckString = deckString;
         await GetImagesAsync();
