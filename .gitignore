@@ -10,3 +10,30 @@
 
 **/# Built Visual Studio Code Extensions
 **/*.vsix
+
+# Test results and coverage
+Hearthstone Archetype Predictor.TestResults/
+*.trx
+*.coverage
+*.coveragexml
+coverage.xml
+code-coverage-results.md
+
+# NuGet
+**/*.nupkg
+**/*.snupkg
+**/packages/
+!**/packages/repositories.config
+**/.nuget/
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+**/desktop.ini
+
+# Logs
+**/*.log
+**/logs/
+
+# Publish outputi
+**/publish/
