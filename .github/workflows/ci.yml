@@ -1,0 +1,56 @@
+name: CI - Build & Test
+
+"on":
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore "Hearthstone Archetype Predictor.Tests/Hearthstone Archetype Predictor.Tests.csproj"
+
+      - name: Build
+        run: dotnet build "Hearthstone Archetype Predictor.Tests/Hearthstone Archetype Predictor.Tests.csproj" --no-restore --configuration Release
+
+      - name: Run tests
+        run: |
+          dotnet test "Hearthstone Archetype Predictor.Tests/Hearthstone Archetype Predictor.Tests.csproj" \
+            --no-build \
+            --configuration Release \
+            --results-directory "./Hearthstone Archetype Predictor.TestResults" \
+            /p:CollectCoverage=true \
+            /p:CoverletOutputFormat=cobertura \
+            /p:CoverletOutput="./Hearthstone Archetype Predictor.TestResults/coverage.xml" \
+            -- --report-xunit-trx --report-xunit-trx-filename "test-results.trx"
+
+      - name: Publish test results
+        uses: dorny/test-reporter@v1
+        if: always()
+        with:
+          name: xUnit Test Results
+          path: "./Hearthstone Archetype Predictor.TestResults/test-results.trx"
+          reporter: dotnet-trx
+          fail-on-error: true
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: coverage-report
+          path: "./Hearthstone Archetype Predictor.TestResults/coverage.xml"
