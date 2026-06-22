@@ -11,6 +11,7 @@ namespace Hearthstone_Archetype_Predictor.ViewModels;
 public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
 
     private HearthstoneSerializer _hearthstoneSerializer;
+    private AzureMLClient _azureMLClient;
 
     public ObservableCollection<Bitmap> Images { get; private set; }
 
@@ -30,6 +31,17 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
         get { return _cardNamesAndCopies; }
     }
 
+    private string _archetype = "...";
+    public string Archetype
+    {
+        get { return _archetype; }
+        set { _archetype = value; OnPropertyChanged(nameof(Archetype));}
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+    protected void OnPropertyChanged(string propertyName)
+        => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+
     public double WindowHeight, WindowWidth;
     public double Scale => Math.Min(WindowWidth / 900.0, WindowHeight / 850.0);
     public double FontSizeTitle => 28 * Scale;
@@ -40,6 +52,7 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
 
     public MainWindowViewModel() {
         this._hearthstoneSerializer = new HearthstoneSerializer();
+        this._azureMLClient = new AzureMLClient();
         this.Images = new ObservableCollection<Bitmap>();
         this._cardNames = new ObservableCollection<string>();
         this._cardCopies = new ObservableCollection<int>();
@@ -54,6 +67,23 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged {
             Images.Add(image);
         }
         FormatCardNamesAndCopies();
+        await PredictArchetypeAsync();
+    }
+
+    private async Task PredictArchetypeAsync()
+    {
+        try
+        {
+            Archetype = "Predicting...";
+            var (deckClass, cardIds) = _hearthstoneSerializer.GetDeckClassAndCardIds();
+            string archetype = await _azureMLClient.PredictArchetypeAsync(deckClass, cardIds);
+            Archetype = archetype;
+        }
+        catch (Exception ex)
+        {
+            Archetype= "Unknown";
+            Console.WriteLine($"Error predicting archetype: {ex.Message}");
+        }
     }
 
     private void FormatCardNamesAndCopies() {
