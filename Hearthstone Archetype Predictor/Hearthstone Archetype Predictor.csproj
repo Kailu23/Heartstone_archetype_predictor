@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
+    <UserSecretsId>3e03c04a-38af-460f-b48f-5f44bad597f0</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,7 +29,10 @@
     <PackageReference Include="Material.Avalonia" Version="3.13.4" />
     <PackageReference Include="Material.Avalonia.DataGrid" Version="3.13.4" />
     <PackageReference Include="Material.Icons.Avalonia" Version="2.4.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="10.0.9" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.9" />
     <PackageReference Include="ReactiveUI.Avalonia" Version="11.3.8" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="10.0.9" />
   </ItemGroup>
 </Project>
