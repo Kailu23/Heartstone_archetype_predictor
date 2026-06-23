@@ -151,4 +151,24 @@ public class HearthstoneSerializer
 
         return (heroClass, ids);
     }
+
+    /// <summary>
+    /// Accepts or cleans either a deck string or a full Hearthstone export text.
+    /// The deck string is the first line that does not start with '#' and is not empty.
+    /// </summary>
+    public static string ExtractDeckString(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input))
+        {
+            return string.Empty;
+        }
+
+        foreach (string line in input.Split('\n'))
+        {
+            string trimmed = line.Trim();
+            if (trimmed.Length > 0 && !trimmed.StartsWith('#'))
+                return trimmed;
+        }
+        return string.Empty;
+    }
 }
